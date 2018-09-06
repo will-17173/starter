@@ -1,4 +1,3 @@
-var a = require('./module')
-module.exports = {
-    a: 1
-}
+import obj from './module'
+
+console.log(obj)

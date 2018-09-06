@@ -2,16 +2,15 @@
 
 const Path = require('path');
 const Webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MockjsWebpackPlugin = require("mockjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
-var entries = require('./entries').entries;
-var htmlPlugins = require('./entries').htmlPlugins;
+const entries = require('./entries').entries;
+const htmlPlugins = require('./entries').htmlPlugins;
 
 module.exports = (options) => {
     const dest = Path.join(__dirname, 'dist');
@@ -126,7 +125,6 @@ module.exports = (options) => {
     webpackConfig.plugins = webpackConfig.plugins.concat(htmlPlugins);
 
     if (options.isProduction) {
-
         webpackConfig.module.rules.push({
             test: /\.(sa|sc|c)ss$/,
             use: [
@@ -143,7 +141,6 @@ module.exports = (options) => {
         })
 
     } else {
-
         webpackConfig.module.rules.push({
             test: /\.(sa|sc|c)ss$/,
             use: [
@@ -152,15 +149,13 @@ module.exports = (options) => {
                 'sass-loader'
             ]
         })
-
-
         webpackConfig.plugins.push(
             new Webpack.HotModuleReplacementPlugin()
         );
         webpackConfig.plugins.push(
             new MockjsWebpackPlugin({
                 path: Path.join(__dirname, "./mock"),
-                port: 3000
+                port: 8888
             })
         )
         webpackConfig.devServer = {
@@ -170,7 +165,7 @@ module.exports = (options) => {
             port: options.port,
             inline: true,
             proxy: {
-                "/api": "http://localhost:3000/"
+                "/api": "http://localhost:8888/"
             }
         };
     }

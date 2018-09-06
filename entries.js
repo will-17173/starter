@@ -41,6 +41,7 @@ function eachHtmlFiles(dir) {
             fileObj['filename'] = file;
             fileObj['template'] = filePath;
             fileObj['chuckName'] = chuckName;
+            console.log(chuckName)
             pages.push(fileObj)
         })
 
@@ -49,7 +50,7 @@ function eachHtmlFiles(dir) {
                 new HtmlWebpackPlugin({
                     template: page.template,
                     filename: page.filename,
-                    chunks: [page.chuckName]
+                    chunks: ['vendor', page.chuckName]
                 })
             )
         })
