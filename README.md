@@ -1,7 +1,8 @@
 # 一个项目模板
 一个Webpack + ES6 + SASS + MOCKJS的多页面项目模板  
 src目录下面的每个[name].html文件对应src/js/下面的入口文件[name].entry.js  
-静态资源目录assets里的不会被webpack编译
+静态资源目录assets里的不会被webpack编译  
+默认打包后支持IE8
 
 ## 目录结构
 ```bash
