@@ -2,13 +2,12 @@
 
 const Path = require('path');
 const Webpack = require('webpack');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MockjsWebpackPlugin = require("mockjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const entries = require('./entries').entries;
 const htmlPlugins = require('./entries').htmlPlugins;
 
@@ -115,8 +114,8 @@ module.exports = (options) => {
                 }
             }),
             new MiniCssExtractPlugin({
-                filename: "[name].css",
-                chunkFilename: "[id].css"
+                filename: "css/[name].css",
+                chunkFilename: "css/[id].css"
             }),
             new CleanWebpackPlugin([dest])
         ]
@@ -127,18 +126,24 @@ module.exports = (options) => {
     if (options.isProduction) {
         webpackConfig.module.rules.push({
             test: /\.(sa|sc|c)ss$/,
-            use: [
-                MiniCssExtractPlugin.loader,
-                // 'style-loader',
+            use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: '../'
+                    }
+                },
                 {
                     loader: 'css-loader',
-                    options: {
-                        // url: false
-                    }
                 },
                 'sass-loader'
             ]
         })
+
+        webpackConfig.plugins.push(
+            new TransferWebpackPlugin([
+                { from: 'assets', to: '' }
+            ])
+        )
 
     } else {
         webpackConfig.module.rules.push({

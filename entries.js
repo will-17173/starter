@@ -41,7 +41,6 @@ function eachHtmlFiles(dir) {
             fileObj['filename'] = file;
             fileObj['template'] = filePath;
             fileObj['chuckName'] = chuckName;
-            console.log(chuckName)
             pages.push(fileObj)
         })
 
